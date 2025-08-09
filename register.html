@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DocLynk - Create Account</title>
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+    }
+    body {
+      background: url("0") no-repeat center center fixed;
+      background-size: cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+    .overlay {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 60, 50, 0.6);
+      z-index: 0;
+    }
+    .register-container {
+      position: relative;
+      z-index: 1;
+      width: 90%;
+      max-width: 400px;
+      background-color: rgba(255, 255, 255, 0.95);
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #2c3e50;
+    }
+    .input-group {
+      margin-bottom: 20px;
+      position: relative;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+      color: #333;
+    }
+    input {
+      width: 100%;
+      padding: 10px 40px 10px 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 15px;
+      box-sizing: border-box;
+    }
+    .eye-icon {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      font-size: 18px;
+      color: #555;
+      user-select: none;
+    }
+    .validation {
+      font-size: 12px;
+      margin-top: 5px;
+      color: #c0392b;
+    }
+    .validation.valid {
+      color: #27ae60;
+    }
+    #strengthBarContainer {
+      width: 100%;
+      height: 8px;
+      background-color: #ddd;
+      border-radius: 4px;
+      margin-top: 5px;
+      overflow: hidden;
+    }
+    #strengthBar {
+      height: 100%;
+      width: 0%;
+      background-color: red;
+      transition: width 0.3s;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: #2ecc71;
+      border: none;
+      border-radius: 4px;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #27ae60;
+    }
+    .footer-links {
+      margin-top: 15px;
+      text-align: center;
+    }
+    .footer-links a {
+      color: #2980b9;
+      text-decoration: none;
+      font-size: 14px;
+    }
+    .footer-links a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="overlay"></div>
+  <div class="register-container">
+    <h2>Create Account</h2>
+    <form id="registerForm" novalidate>
+      <div class="input-group">
+        <label for="fullname">Full Name</label>
+        <input type="text" id="fullname" name="fullname" required placeholder="Enter your full name">
+        <div id="nameValidation" class="validation"></div>
+      </div>
+      <div class="input-group">
+        <label for="phone">Phone Number</label>
+        <input type="tel" id="phone" name="phone" required placeholder="Enter your phone number">
+        <div id="phoneValidation" class="validation"></div>
+      </div>
+      <div class="input-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required placeholder="Enter your email">
+        <div id="emailValidation" class="validation"></div>
+      </div>
+      <div class="input-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required placeholder="Create your password">
+        <span class="eye-icon" id="togglePassword">&#128065;</span>
+        <div id="strengthBarContainer"><div id="strengthBar"></div></div>
+        <div id="passwordValidation" class="validation"></div>
+      </div>
+      <div class="input-group">
+        <label for="confirmPassword">Confirm Password</label>
+        <input type="password" id="confirmPassword" name="confirmPassword" required placeholder="Confirm your password">
+        <span class="eye-icon" id="toggleConfirm">&#128065;</span>
+        <div id="confirmValidation" class="validation"></div>
+      </div>
+      <button type="submit">Register</button>
+    </form>
+    <div class="footer-links">
+      <a href="login.html">Back to Login</a>
+    </div>
+  </div>
+
+  <script>
+    const registerForm = document.getElementById('registerForm');
+    const fullnameInput = document.getElementById('fullname');
+    const phoneInput = document.getElementById('phone');
+    const emailInput = document.getElementById('email');
+    const passwordInput = document.getElementById('password');
+    const confirmInput = document.getElementById('confirmPassword');
+
+    const nameValidation = document.getElementById('nameValidation');
+    const phoneValidation = document.getElementById('phoneValidation');
+    const emailValidation = document.getElementById('emailValidation');
+    const passwordValidation = document.getElementById('passwordValidation');
+    const confirmValidation = document.getElementById('confirmValidation');
+    const strengthBar = document.getElementById('strengthBar');
+
+    const togglePassword = document.getElementById('togglePassword');
+    const toggleConfirm = document.getElementById('toggleConfirm');
+
+    togglePassword.addEventListener('click', () => {
+      const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+      passwordInput.setAttribute('type', type);
+      togglePassword.textContent = type === 'text' ? '🙈' : '👁️';
+    });
+
+    toggleConfirm.addEventListener('click', () => {
+      const type = confirmInput.getAttribute('type') === 'password' ? 'text' : 'password';
+      confirmInput.setAttribute('type', type);
+      toggleConfirm.textContent = type === 'text' ? '🙈' : '👁️';
+    });
+
+    fullnameInput.addEventListener('input', () => {
+      const regex = /^[a-zA-Z\s]+$/;
+      if (fullnameInput.value.trim() === "") {
+        nameValidation.textContent = "Full name is required.";
+        nameValidation.classList.remove("valid");
+      } else if (!regex.test(fullnameInput.value)) {
+        nameValidation.textContent = "Only letters and spaces allowed.";
+        nameValidation.classList.remove("valid");
+      } else {
+        nameValidation.textContent = "✓ Valid name.";
+        nameValidation.classList.add("valid");
+      }
+    });
+
+    phoneInput.addEventListener('input', () => {
+      const regex = /^\d{10,}$/;
+      if (phoneInput.value.trim() === "") {
+        phoneValidation.textContent = "Phone number is required.";
+        phoneValidation.classList.remove("valid");
+      } else if (!regex.test(phoneInput.value)) {
+        phoneValidation.textContent = "Must be at least 10 digits.";
+        phoneValidation.classList.remove("valid");
+      } else {
+        phoneValidation.textContent = "✓ Valid phone number.";
+        phoneValidation.classList.add("valid");
+      }
+    });
+
+    emailInput.addEventListener('input', () => {
+      if (emailInput.validity.typeMismatch) {
+        emailValidation.textContent = "Enter a valid email address.";
+        emailValidation.classList.remove("valid");
+      } else if (emailInput.value.trim() === "") {
+        emailValidation.textContent = "Email is required.";
+        emailValidation.classList.remove("valid");
+      } else {
+        emailValidation.textContent = "✓ Valid email.";
+        emailValidation.classList.add("valid");
+      }
+    });
+
+    passwordInput.addEventListener('input', () => {
+      const value = passwordInput.value;
+      let score = 0;
+      let messages = [];
+
+      if (value.length >= 8) {
+        score += 1;
+        messages.push("✓ Minimum 8 characters.");
+      } else {
+        messages.push("At least 8 characters.");
+      }
+
+      if (/[!@#$%^&*(),.?":{}|<>]/.test(value)) {
+        score += 1;
+        messages.push("✓ Contains a special character.");
+      } else {
+        messages.push("At least one special character.");
+      }
+
+      passwordValidation.innerHTML = messages.map(msg => `<div>${msg}</div>`).join("");
+
+      if (score === 0) {
+        strengthBar.style.width = "0%";
+        strengthBar.style.backgroundColor = "red";
+      } else if (score === 1) {
+        strengthBar.style.width = "50%";
+        strengthBar.style.backgroundColor = "orange";
+      } else if (score === 2) {
+        strengthBar.style.width = "100%";
+        strengthBar.style.backgroundColor = "green";
+      }
+
+      checkConfirmPassword();
+    });
+
+    confirmInput.addEventListener('input', checkConfirmPassword);
+
+    function checkConfirmPassword() {
+      const pass = passwordInput.value;
+      const confirm = confirmInput.value;
+
+      if (confirm === "") {
+        confirmValidation.textContent = "";
+        confirmValidation.classList.remove("valid");
+      } else if (pass !== confirm) {
+        confirmValidation.textContent = "Passwords do not match.";
+        confirmValidation.classList.remove("valid");
+      } else {
+        confirmValidation.textContent = "✓ Passwords match.";
+        confirmValidation.classList.add("valid");
+      }
+    }
+
+    registerForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const isNameValid = nameValidation.classList.contains("valid");
+      const isPhoneValid = phoneValidation.classList.contains("valid");
+      const isEmailValid = emailValidation.classList.contains("valid");
+      const passwordValue = passwordInput.value;
+      const confirmValue = confirmInput.value;
+
+      const isPasswordValid =
+        passwordValue.length >= 8 &&
+        /[!@#$%^&*(),.?":{}|<>]/.test(passwordValue);
+
+      const isConfirmValid =
+        passwordValue !== "" &&
+        confirmValue !== "" &&
+        passwordValue === confirmValue;
+
+      if (isNameValid && isPhoneValid && isEmailValid && isPasswordValid && isConfirmValid) {
+        alert("Registration successful!");
+        window.location.href = "index.html";
+      } else {
+        alert("Please fix the errors before submitting.");
+      }
+    });
+  </script>
+</body>
+</html>

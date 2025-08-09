@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DocLynk - Login</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      height: 100%;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: url("doclynk.jpg") no-repeat center center fixed;
+      background-size: cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 60, 50, 0.6);
+      z-index: 0;
+    }
+
+    .container {
+      position: relative;
+      display: flex;
+      max-width: 900px;
+      width: 95%;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 8px;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    .left-side {
+      flex: 1;
+      background-color: #004d40;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 40px;
+    }
+
+    .left-side img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    .right-side {
+      flex: 1;
+      padding: 40px;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #2c3e50;
+    }
+
+    .input-group {
+      margin-bottom: 20px;
+      position: relative;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    input[type="email"],
+    input[type="password"] {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 15px;
+    }
+
+    .validation {
+      font-size: 12px;
+      margin-top: 5px;
+      color: #c0392b;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: #2ecc71;
+      border: none;
+      border-radius: 4px;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #27ae60;
+    }
+
+    .home-button {
+      display: inline-block;
+      width: 100%;
+      text-align: center;
+      padding: 12px;
+      margin-top: 10px;
+      background-color: #3498db;
+      color: white;
+      text-decoration: none;
+      border-radius: 4px;
+      font-size: 16px;
+      transition: background-color 0.3s;
+    }
+
+    .home-button:hover {
+      background-color: #144a3d;
+    }
+
+    .footer-links {
+      margin-top: 15px;
+      text-align: center;
+    }
+
+    .footer-links a {
+      font-size: 14px;
+      color: #2980b9;
+      text-decoration: none;
+      margin: 0 10px;
+    }
+
+    .footer-links a:hover {
+      text-decoration: underline;
+    }
+
+    .signup-text {
+      text-align: center;
+      margin-top: 10px;
+      font-size: 14px;
+      color: #333;
+    }
+
+    .signup-text a {
+      color: #2980b9;
+      text-decoration: none;
+    }
+
+    .signup-text a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+      }
+      .left-side, .right-side {
+        width: 100%;
+      }
+      .left-side {
+        padding: 20px;
+      }
+      .right-side {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="overlay"></div>
+  <div class="container">
+    <!-- Left Side -->
+    <div class="left-side">
+      <img src="logo.jpg" alt="DocLynk Logo" />
+    </div>
+    <!-- Right Side -->
+    <div class="right-side">
+      <form id="loginForm">
+        <h2>Login to DocLynk</h2>
+
+        <div class="input-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" required placeholder="Enter your email">
+        </div>
+
+        <div class="input-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" required placeholder="Enter your password">
+          <div id="passwordValidation" class="validation"></div>
+        </div>
+
+        <button type="submit">Login</button>
+
+        <!-- Back to Home Page Button -->
+        <a href="index.html" class="home-button">← Back to Home Page</a>
+
+        <div class="footer-links">
+          <a href="forgotpas.html">Forgot Password?</a> |
+          <a href="register.html">Create Account</a>
+        </div>
+
+        <p class="signup-text">Already a user? <a href="login.html">Sign In</a></p>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const passwordInput = document.getElementById('password');
+    const validationDiv = document.getElementById('passwordValidation');
+    const loginForm = document.getElementById('loginForm');
+
+    passwordInput.addEventListener('input', () => {
+      const value = passwordInput.value;
+      let messages = [];
+
+      if (value.length < 8) {
+        messages.push('At least 8 characters.');
+      } else {
+        messages.push('✓ Minimum 8 characters.');
+      }
+
+      if (!/[!@#$%^&*(),.?":{}|<>]/.test(value)) {
+        messages.push('At least one special character.');
+      } else {
+        messages.push('✓ Contains a special character.');
+      }
+
+      validationDiv.innerHTML = messages
+        .map(msg => `<div>${msg}</div>`)
+        .join('');
+    });
+
+    loginForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      alert("Login logic goes here!");
+    });
+  </script>
+</body>
+</html>

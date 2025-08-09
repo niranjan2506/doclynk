@@ -1,0 +1,410 @@
+/* Reset and Base Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  background-color: #f5f5f5;
+  color: #333;
+}
+
+/* Header / Hero Section */
+.hero-header {
+  position: relative;
+  height: 400px; /* Adjust as you want */
+  background-image: url('0.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  color: white;
+  padding: 20px;
+  box-sizing: border-box;   
+  filter: brightness(1.5);
+  backgroun;
+}
+
+/* Optional dark overlay for better text contrast */
+.hero-header::after {
+  content: "";
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.4);  /* Adjust overlay darkness */
+  z-index: 0;
+}
+
+/* Navigation Buttons - top right */
+.hero-header nav {
+  display: flex;
+  justify-content: flex-end;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-header .nav-buttons button {
+  margin-left: 10px;
+  padding: 8px 16px;
+  background-color: #ffffffcc;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.hero-header .nav-buttons button a {
+  text-decoration: none;
+  color: #003b2f;
+  font-weight: bold;
+}
+
+/* Hero Content Centered */
+.hero-header .hero-content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.hero-header .hero-content h1 {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+}
+
+.hero-header .hero-content p {
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+}
+
+.hero-header .hero-content button {
+  padding: 10px 20px;
+  background-color: #ffffffcc;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  color: #003b2f;
+}
+.quick-access {
+  background-color: #e8f5f1;
+  padding: 20px 0;
+  box-shadow: inset 0 -1px 3px rgba(0,0,0,0.05);
+}
+
+.quick-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.quick-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  color: #2f6d58;
+  padding: 12px 20px;
+  border-radius: 10px;
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.06);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.quick-item i {
+  font-size: 28px;
+  margin-bottom: 8px;
+  color: #2f6d58;
+}
+
+.quick-item span {
+  font-size: 14px;
+  font-weight: 500;
+  text-align: center;
+}
+
+.quick-item:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.12);
+  background-color: #f0fdf9;
+}
+
+
+/* ----------------------------- */
+/* SEARCH SECTION */
+/* ----------------------------- */
+/* Style the search section background and padding */
+.search {
+  background-color: #f9f9f9;
+  padding: 20px 0;
+}
+
+/* Make the container horizontal and nicely spaced */
+.search .container {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+/* Style for select dropdowns */
+.search select {
+  padding: 10px 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  background-color: white;
+  transition: border 0.3s ease;
+}
+
+.search select:focus {
+  border-color: #2f6d58; /* your theme green */
+  outline: none;
+}
+
+/* Style the Search button */
+.search button {
+  padding: 10px 20px;
+  background-color: #2f6d58; /* your green */
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.search button:hover {
+  background-color: #245143; /* darker on hover */
+}
+
+/* Responsive adjustment for smaller screens */
+@media (max-width: 600px) {
+  .search .container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .search select,
+  .search button {
+    width: 80%;
+    max-width: 300px;
+  }
+}
+
+
+/* ----------------------------- */
+/* DOCTORS SECTION */
+/* ----------------------------- */
+
+.doctors {
+  background-color: #f0f0f0;
+  padding: 40px 20px;
+}
+
+.doctors .container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.doctor-card {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 20px;
+  width: 220px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.doctor-card:hover {
+  transform: translateY(-5px);
+}
+
+.doctor-card img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 12px;
+}
+
+.doctor-card h3 {
+  margin-bottom: 6px;
+  color: #004d40;
+}
+
+.doctor-card p {
+  margin-bottom: 10px;
+  font-size: 14px;
+  color: #555;
+}
+
+.doctor-card button {
+  background-color: #004d40;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.doctor-card button:hover {
+  background-color: #00796b;
+}
+
+/* ----------------------------- */
+/* VIDEO CONSULTING SECTION */
+/* ----------------------------- */
+
+.video-consulting {
+  background-color: #ffffff;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.video-consulting .container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.video-consulting img {
+  width: 120px;
+  height: auto;
+  margin-bottom: 20px;
+}
+
+.video-consulting h2 {
+  color: #004d40;
+  margin-bottom: 12px;
+}
+
+.video-consulting p {
+  color: #555;
+  margin-bottom: 20px;
+}
+
+.video-consulting button {
+  background-color: #004d40;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.video-consulting button:hover {
+  background-color: #00796b;
+}
+
+/* ----------------------------- */
+/* FOOTER */
+/* ----------------------------- */
+
+.footer {
+  background-color: #263238;
+  color: #fff;
+  padding: 40px 20px 20px;
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.footer-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px;
+  justify-content: space-between;
+}
+
+.footer-brand h3 {
+  margin-bottom: 10px;
+}
+
+.footer-brand p {
+  margin-bottom: 12px;
+  font-size: 14px;
+  color: #ccc;
+}
+
+.footer-social a {
+  margin-right: 10px;
+  color: #ccc;
+  text-decoration: none;
+  font-size: 18px;
+}
+
+.footer-social a:hover {
+  color: #fff;
+}
+
+.footer h4 {
+  margin-bottom: 10px;
+  color: #fff;
+}
+
+.footer ul {
+  list-style: none;
+}
+
+.footer ul li {
+  margin-bottom: 8px;
+}
+
+.footer ul li a {
+  color: #ccc;
+  text-decoration: none;
+  font-size: 14px;
+  transition: color 0.3s ease;
+}
+
+.footer ul li a:hover {
+  color: #fff;
+}
+
+.footer-bottom {
+  margin-top: 30px;
+  text-align: center;
+  font-size: 13px;
+  color: #ccc;
+}
+
+/* ----------------------------- */
+/* RESPONSIVE */
+/* ----------------------------- */
+
+@media (max-width: 768px) {
+  .top-buttons {
+    top: 10px;
+    right: 10px;
+  }
+
+  .search .container {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .doctors .container {
+    gap: 16px;
+  }
+
+  .doctor-card {
+    width: 100%;
+    max-width: 300px;
+  }
+
+  .footer-grid {
+    flex-direction: column;
+    gap: 20px;
+  }
+}

@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PharmaCare - Online Pharmacy</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+    body {
+      padding-top: 70px;
+    }
+    .upload-prescription {
+      background-color: #f8f9fa;
+    }
+    .card:hover {
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    .cart-count {
+      background-color: red;
+      color: white;
+      font-size: 12px;
+      padding: 2px 6px;
+      border-radius: 50%;
+      position: absolute;
+      top: 8px;
+      right: 12px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top px-4">
+    <a class="navbar-brand" href="#">PharmaCare</a>
+    <div class="ms-auto position-relative">
+      <button class="btn btn-outline-primary position-relative" onclick="viewCart()">
+        Cart
+        <span class="cart-count" id="cartCount">0</span>
+      </button>
+    </div>
+  </nav>
+
+  <div class="container my-4">
+    <!-- Upload Prescription -->
+    <div class="upload-prescription mb-4 p-4 border border-secondary rounded text-center">
+      <h5>Upload Your Prescription</h5>
+      <input type="file" class="form-control mt-3" id="prescriptionUpload" />
+    </div>
+
+    <!-- Search -->
+    <div class="input-group mb-4">
+      <input type="text" class="form-control" placeholder="Search for medicine..." id="searchInput" />
+      <button class="btn btn-primary" onclick="searchProducts()">Search</button>
+    </div>
+
+    <!-- Categories -->
+    <h4 class="mb-3">Browse by Health Category</h4>
+    <div class="row" id="categoryContainer"></div>
+
+    <!-- Filters and Products -->
+    <div class="row mt-5">
+      <div class="col-md-3">
+        <h5>Filters</h5>
+        <label class="form-label">Max Price: ₹<span id="priceValue">500</span></label>
+        <input
+          type="range"
+          class="form-range"
+          id="priceRange"
+          min="0"
+          max="500"
+          value="500"
+          onchange="filterProducts()"
+        />
+      </div>
+      <div class="col-md-9">
+        <h5>Products</h5>
+        <div class="row" id="productContainer"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Product Modal -->
+  <div class="modal fade" id="productModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalTitle"></h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <img id="modalImage" class="img-fluid mb-3" />
+          <p id="modalDescription"></p>
+          <p><strong>Price: ₹<span id="modalPrice"></span></strong></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cart Modal -->
+  <div class="modal fade" id="cartModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Your Cart</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body" id="cartContent">
+          <!-- Cart items will load here -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const categories = [
+      { name: "Skin Care", image: "" },
+      { name: "Heart Health", image: "" },
+      { name: "Pain Relief", image: "" },
+      { name: "Cold & Flu", image: "" },
+      { name: "Digestive Health", image: "" },
+    ];
+
+    const products = [
+      {
+        id: 1,
+        name: "Paracetamol 500mg",
+        description: "Effective pain and fever relief.",
+        price: 25,
+        category: "Pain Relief",
+        image: "",
+      },
+      {
+        id: 2,
+        name: "Skin Ointment X",
+        description: "For skin infections and irritation.",
+        price: 150,
+        category: "Skin Care",
+        image: "",
+      },
+      {
+        id: 3,
+        name: "Digestive Enzyme",
+        description: "Helps improve digestion naturally.",
+        price: 80,
+        category: "Digestive Health",
+        image: "",
+      },
+      {
+        id: 4,
+        name: "Cough Syrup",
+        description: "Soothes throat and controls cough.",
+        price: 60,
+        category: "Cold & Flu",
+        image: "",
+      },
+      {
+        id: 5,
+        name: "HeartSafe Tablet",
+        description: "Supports cardiovascular health.",
+        price: 200,
+        category: "Heart Health",
+        image: "",
+      },
+    ];
+
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    const categoryContainer = document.getElementById("categoryContainer");
+    const productContainer = document.getElementById("productContainer");
+    const priceRange = document.getElementById("priceRange");
+    const priceValue = document.getElementById("priceValue");
+    const cartCount = document.getElementById("cartCount");
+
+    // Load categories
+    categories.forEach((cat) => {
+      categoryContainer.innerHTML += `
+        <div class="col-md-4 mb-3">
+          <div class="card h-100">
+            <img src="${cat.image}" class="card-img-top" alt="${cat.name}" />
+            <div class="card-body">
+              <h5 class="card-title">${cat.name}</h5>
+              <button class="btn btn-outline-primary" onclick="filterByCategory('${cat.name}')">View Products</button>
+            </div>
+          </div>
+        </div>`;
+    });
+
+    function renderProducts(filtered = products) {
+      productContainer.innerHTML = "";
+      filtered.forEach((prod) => {
+        productContainer.innerHTML += `
+          <div class="col-md-4 mb-4">
+            <div class="card h-100">
+              <img src="${prod.image}" class="card-img-top" style="height:200px;object-fit:cover;" alt="${prod.name}" />
+              <div class="card-body">
+                <h6>${prod.name}</h6>
+                <p>₹${prod.price}</p>
+                <button class="btn btn-sm btn-outline-success" onclick="openModal(${prod.id})">Quick View</button>
+                <button class="btn btn-sm btn-success mt-2" onclick="addToCart(${prod.id})">Add to Cart</button>
+              </div>
+            </div>
+          </div>`;
+      });
+    }
+
+    function openModal(id) {
+      const prod = products.find((p) => p.id === id);
+      document.getElementById("modalTitle").innerText = prod.name;
+      document.getElementById("modalDescription").innerText = prod.description;
+      document.getElementById("modalPrice").innerText = prod.price;
+      document.getElementById("modalImage").src = prod.image || "";
+      new bootstrap.Modal(document.getElementById("productModal")).show();
+    }
+
+    function addToCart(id) {
+      const prod = products.find((p) => p.id === id);
+      const existing = cart.find((p) => p.id === id);
+      if (existing) {
+        existing.qty += 1;
+      } else {
+        cart.push({ ...prod, qty: 1 });
+      }
+      localStorage.setItem("cart", JSON.stringify(cart));
+      updateCartCount();
+      alert(`${prod.name} added to cart.`);
+    }
+
+    function updateCartCount() {
+      cartCount.textContent = cart.reduce((acc, item) => acc + item.qty, 0);
+    }
+
+    function viewCart() {
+      const modal = new bootstrap.Modal(document.getElementById("cartModal"));
+      const cartContent = document.getElementById("cartContent");
+      if (cart.length === 0) {
+        cartContent.innerHTML = "<p>Your cart is empty.</p>";
+      } else {
+        let html = '<ul class="list-group">';
+        cart.forEach((item) => {
+          html += `<li class="list-group-item d-flex justify-content-between align-items-center">
+                    ${item.name} (x${item.qty})
+                    <span>₹${item.price * item.qty}</span>
+                   </li>`;
+        });
+        html += "</ul>";
+        cartContent.innerHTML = html;
+      }
+      modal.show();
+    }
+
+    function filterByCategory(cat) {
+      const filtered = products.filter((p) => p.category === cat);
+      renderProducts(filtered);
+    }
+
+    function filterProducts() {
+      const maxPrice = parseInt(priceRange.value);
+      priceValue.textContent = maxPrice;
+      const filtered = products.filter((p) => p.price <= maxPrice);
+      renderProducts(filtered);
+    }
+
+    function searchProducts() {
+      const query = document.getElementById("searchInput").value.toLowerCase();
+      const filtered = products.filter((p) =>
+        p.name.toLowerCase().includes(query)
+      );
+      renderProducts(filtered);
+    }
+
+    // Init
+    updateCartCount();
+    renderProducts();
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
